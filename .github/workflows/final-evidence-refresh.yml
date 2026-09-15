@@ -57,15 +57,28 @@ jobs:
 
           path = Path('day01/STUDENT.ipynb')
           nb = json.loads(path.read_text(encoding='utf-8'))
-          first_code = next(cell for cell in nb['cells'] if cell.get('cell_type') == 'code')
-          source = first_code.get('source', [])
+          code_cells = [cell for cell in nb['cells'] if cell.get('cell_type') == 'code']
+
+          first = code_cells[0]
+          source = first.get('source', [])
           text = ''.join(source) if isinstance(source, list) else source
           if 'import json' not in text:
               if isinstance(source, list):
-                  first_code['source'] = ['import json\n', *source]
+                  first['source'] = ['import json\n', *source]
               else:
-                  first_code['source'] = 'import json\n' + source
-              path.write_text(json.dumps(nb, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
+                  first['source'] = 'import json\n' + source
+
+          source_cell = next(cell for cell in code_cells if 'from masar.sources import' in (''.join(cell.get('source', [])) if isinstance(cell.get('source', []), list) else cell.get('source', '')))
+          source = source_cell.get('source', [])
+          text = ''.join(source) if isinstance(source, list) else source
+          path_line = "sys.path.insert(0, str(ROOT / 'src'))\n"
+          if "ROOT / 'src'" not in text and 'ROOT / "src"' not in text:
+              if isinstance(source, list):
+                  source_cell['source'] = [path_line, *source]
+              else:
+                  source_cell['source'] = path_line + source
+
+          path.write_text(json.dumps(nb, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
           PY
           if ! git diff --quiet -- day01/STUDENT.ipynb; then
             git config user.name 'github-actions[bot]'
