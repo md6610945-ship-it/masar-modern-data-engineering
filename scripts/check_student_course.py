@@ -35,7 +35,12 @@ def inspect(root=ROOT):
                 nb = nbformat.read(path, as_version=4)
                 nbformat.validate(nb)
             except Exception as exc:
-                errors.append(f'{path.relative_to(root)}: invalid notebook JSON: {exc}')
+                detail = ''
+                try:
+                    json.loads(path.read_text(encoding='utf-8'))
+                except Exception as json_exc:
+                    detail = f' | raw-json: {json_exc!r}'
+                errors.append(f'{path.relative_to(root)}: invalid notebook JSON: {exc}{detail}')
                 continue
             texts = [c.source for c in nb.cells if c.cell_type == 'markdown']
             for c in nb.cells:
