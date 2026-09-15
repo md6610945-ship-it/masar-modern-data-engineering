@@ -1,6 +1,6 @@
 # Benchmark Evidence
 
-This file records the cost assumptions and scan measurements observed in the executed project notebook. Hypothetical cost-model units are kept separate from measured elapsed time.
+This file records the cost assumptions and Spark scan measurements actually observed during the project. Hypothetical cost-model units are kept separate from elapsed-time measurements, and repeated executions are reported as repeated executions rather than forced into one artificial number.
 
 ## 1. Cost-model assumptions
 
@@ -37,45 +37,68 @@ At **23.75 work hours/day**, scheduled operation becomes **1490 TU**, which is *
 
 ## 3. Spark scan measurement contract
 
-- Input: the fixed synthetic `trips.csv` / equivalent Delta version-0 data.
+- Input: the fixed synthetic `trips.csv` and the equivalent Delta version-0 population.
 - Business result checked for equality before timing comparison.
 - Result: 72 rows, 72 non-null fares, total fare 1794.60 SAR.
-- Environment observed in the notebook: Python 3.11.13, Java 17.0.20, PySpark 3.5.8, Delta Lake (`delta-spark`) 3.3.3 in Google Colab/local teaching execution.
-- One warm-up was performed for each path before recorded samples.
-- Four recorded repetitions per path.
-- The comparison included the same aggregate business result.
-- Query plans were saved by the lab for both CSV and Delta reads.
-- Cache effects from the OS/JVM/metadata layer cannot be excluded on such a small benchmark.
+- Spark version observed: 3.5.8.
+- One warm-up per variant before four recorded repetitions.
+- Same aggregate business work on CSV and Delta.
+- Physical query plans retained under `reports/plans/`.
+- No explicit Spark cache; OS/JVM/filesystem/metadata caches were not controlled.
+- Timing scope excludes session startup and Bronze ingestion.
 
-## 4. Observed elapsed times
+## 4. Original engine-generated Day 1 handoff report
 
-### CSV
+The original `day01_handoff.zip` was recovered and its real engine-generated report is committed as [`reports/benchmark.json`](reports/benchmark.json).
+
+### CSV — original handoff run
 
 Recorded seconds:
+
+`0.153875709, 0.211088204, 0.192891344, 0.199862060`
+
+- Minimum: 0.153875709 s
+- Median: **0.196376702 s**
+- Maximum: 0.211088204 s
+
+### Delta version 0 — original handoff run
+
+Recorded seconds:
+
+`1.466017986, 1.508811324, 2.565473854, 1.952296346`
+
+- Minimum: 1.466017986 s
+- Median: **1.730553835 s**
+- Maximum: 2.565473854 s
+
+The matching engine report records `query_results_match_oracle = true`, `equal_source_populations = true`, `positive_measured_samples = true` and `query_plans_saved = true`.
+
+## 5. Later retained notebook execution
+
+The consolidated executed Day 1 notebook contains a later valid rerun of the same small benchmark. That rerun observed:
+
+### CSV — later notebook run
 
 `0.204056404, 0.273864178, 0.200422811, 0.388999725`
 
-- Minimum: 0.200422811 s
-- Median: **0.238960291 s**
-- Maximum: 0.388999725 s
+Median: **0.238960291 s**
 
-### Delta version 0
-
-Recorded seconds:
+### Delta version 0 — later notebook run
 
 `1.329042936, 1.373393722, 1.306951148, 1.760607276`
 
-- Minimum: 1.306951148 s
-- Median: **1.351218329 s**
-- Maximum: 1.760607276 s
+Median: **1.351218329 s**
 
-## 5. Interpretation
+Both runs returned the same 72-row / 1794.60 SAR business result. The timing difference between executions is itself a reason not to overclaim performance on this tiny local fixture.
 
-The two scans returned equal business results. In this specific tiny local run, the recorded CSV samples were lower than the Delta samples. That observation **does not establish a general performance ranking**. Delta provides transaction, schema and versioning capabilities exercised elsewhere in this project; this micro-benchmark is too small to demonstrate production throughput or scale.
+## 6. Interpretation
 
-## 6. Limits
+In both retained executions, the CSV samples happened to be lower than the Delta samples. This observation **does not establish a general performance ranking**. Delta provides transaction, schema-enforcement, history and recovery capabilities exercised elsewhere in the project; a 72-row local micro-benchmark is too small to demonstrate production throughput or distributed scale.
+
+## 7. Limits
 
 These measurements cannot establish:
+
 - real cloud cost;
 - production scalability;
 - guaranteed speed-up for either file format;
@@ -86,6 +109,8 @@ Session startup, JVM state, filesystem cache and Delta metadata overhead can dom
 
 ## Evidence locations
 
-- Executed Day 1 notebook cells and retained outputs.
-- Lab-generated benchmark report and query plans in the original runtime workspace.
-- `LAB02_NOTES.md` for the summarized observation and interpretation.
+- `reports/benchmark.json` — original engine-generated benchmark report recovered from the learner's Day 1 handoff.
+- `reports/plans/csv.txt` — original CSV physical plan.
+- `reports/plans/delta_v0.txt` — original Delta physical plan.
+- `day01/STUDENT.ipynb` — later retained executed notebook evidence.
+- `LAB02_NOTES.md` — summarized observation, decision and limitations.
