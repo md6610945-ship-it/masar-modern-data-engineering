@@ -16,15 +16,21 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: develop
-      - name: Normalize invalid JSON escape in Day 1 notebook
+      - name: Diagnose and normalize Day 1 notebook JSON
         run: |
           python - <<'PY'
           from pathlib import Path
           import json
           p = Path('day01/STUDENT.ipynb')
           text = p.read_text(encoding='utf-8')
+          print('RAW SLICE:', repr(text[4860:4990]))
           fixed = text.replace('\\ ', ' ')
-          data = json.loads(fixed)
+          print('FIXED SLICE:', repr(fixed[4860:4990]))
+          try:
+              data = json.loads(fixed)
+          except Exception as exc:
+              print('PARSE ERROR:', repr(exc))
+              raise
           p.write_text(json.dumps(data, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
           print('Day 1 notebook JSON normalized and validated.')
           PY
