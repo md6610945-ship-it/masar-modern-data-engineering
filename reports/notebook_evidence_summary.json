@@ -1,0 +1,97 @@
+{
+  "project": "Masar Mini-Lakehouse",
+  "evidence_origin": "transcribed_from_retained_executed_notebook_outputs",
+  "is_original_engine_generated_report": false,
+  "dataset": {
+    "synthetic": true,
+    "base_trips": 72,
+    "drivers": 6,
+    "base_gps_events": 216
+  },
+  "lab01": {
+    "bronze_counts": {"trips": 144, "drivers": 6, "gps_events": 216},
+    "distinct_base_business_trips": 72,
+    "checks_passed": [
+      "expected_totals",
+      "two_trip_deliveries",
+      "business_trip_count_unchanged",
+      "initial_snapshot_retained",
+      "base_csv_columns_are_strings",
+      "payloads_and_source_hashes_preserved",
+      "real_delta_files_present"
+    ]
+  },
+  "lab02": {
+    "cost_model_unit": "TU (hypothetical teaching units; not currency)",
+    "always_on_total_tu": 1460.0,
+    "scheduled_total_tu": 185.0,
+    "break_even_work_hours_per_day": 23.25,
+    "benchmark": {
+      "rows": 72,
+      "fare_total_sar": 1794.60,
+      "csv_median_s": 0.23896029100069427,
+      "delta_v0_median_s": 1.3512183289985842
+    }
+  },
+  "lab03": {
+    "staging_counts": {"stg_trips": 144, "stg_drivers": 6, "stg_gps": 216},
+    "phases": {
+      "base": {"rows": 72, "fare_sar": 1794.60},
+      "rerun": {"rows": 72, "fare_sar": 1794.60},
+      "late": {"rows": 75, "fare_sar": 1875.60},
+      "late_replay": {"rows": 75, "fare_sar": 1875.60}
+    },
+    "dbt_status": "PASSED_DBT_NATIVE"
+  },
+  "lab04": {
+    "trusted_rows_before": 75,
+    "trusted_rows_after_correction": 75,
+    "version_before": 1,
+    "version_after_correction": 2,
+    "past_version_read": 1,
+    "recovery_copy": {"before": 75, "after_delete": 74, "after_restore": 75},
+    "trusted_silver_unchanged": true
+  },
+  "lab05": {
+    "transport_rows_by_phase": [216, 216, 218, 219],
+    "unique_event_ids_by_phase": [216, 216, 216, 217],
+    "late_event_retained": true,
+    "checkpoint_reused": true
+  },
+  "lab06": {
+    "mixed_candidate_rows": 82,
+    "approved_rows": 75,
+    "quarantined_rows": 7,
+    "reasons": [
+      "MISSING_TRIP_ID",
+      "INVALID_FARE",
+      "UNKNOWN_DRIVER",
+      "INVALID_TIMESTAMP",
+      "INVALID_DURATION",
+      "INVALID_DISTANCE",
+      "INVALID_CITY"
+    ],
+    "failed_candidate_not_promoted": true
+  },
+  "lab07": {
+    "injected_failure_observed": true,
+    "previous_release_preserved": true,
+    "rebuild_has_new_identity": true,
+    "content_equal": true
+  },
+  "lab08": {
+    "fact_trips": 75,
+    "unique_events": 217,
+    "bi_zone_totals": [
+      {"zone_key": "Z_DAMMAM", "trip_count": 25, "total_fare_sar": 670.40},
+      {"zone_key": "Z_JEDDAH", "trip_count": 25, "total_fare_sar": 625.20},
+      {"zone_key": "Z_RIYADH", "trip_count": 25, "total_fare_sar": 585.00}
+    ],
+    "reconciled_trip_total": 75,
+    "reconciled_fare_sar": 1880.60,
+    "trip_difference": 0,
+    "fare_difference_sar": 0.00,
+    "labels_not_fabricated": true,
+    "feature_availability_checked": true
+  }
+}
