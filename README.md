@@ -1,9 +1,220 @@
-<table dir="ltr" width="100%"><tr><td width="50%" dir="ltr" lang="en" align="left" valign="top"><p>SDAIA Academy · Learner materials</p><h1>Modern Data Engineering<br>for AI Systems</h1><h2>MASAR · Mini-Lakehouse</h2><p><strong>Meaad Al-Marri</strong><br>SDA-DSC-214 · Five days · Eight cumulative labs</p></td><td width="50%" dir="rtl" lang="ar" align="right" valign="top"><p>أكاديمية سدايا · مواد المتدرب</p><h1>هندسة البيانات الحديثة<br>لأنظمة الذكاء الاصطناعي</h1><h2>مسار · بيئة بيانات مصغرة</h2><p><strong>ميعاد المري</strong><br>SDA-DSC-214 · خمسة أيام · ثمانية لابات تراكمية</p></td></tr></table>
+# Masar Mini-Lakehouse — Mohammed Al-Ahmari
 
-<table dir="ltr" width="100%"><tr><td width="50%" dir="ltr" lang="en" align="left" valign="top"><h2>What you will build</h2><p>Turn small synthetic trip, driver and location feeds into a reliable data pipeline: preserve the source, build Silver, manage changes, receive events, check quality and deliver reporting and AI-ready tables.</p><p><strong>The labs are your final project.</strong> Complete them in sequence; no separate final assignment is added.</p></td><td width="50%" dir="rtl" lang="ar" align="right" valign="top"><h2>ماذا ستبني؟</h2><p>حوّل ملفات اصطناعية صغيرة للرحلات والسائقين والمواقع إلى خط بيانات موثوق: احفظ المصدر، وابنِ Silver، وأدر التغييرات، واستقبل الأحداث، وافحص الجودة، ثم جهّز جداول التقارير والذكاء الاصطناعي.</p><p><strong>اللابات هي مشروعك النهائي.</strong> أكملها بالتتابع دون تكليف نهائي منفصل.</p></td></tr></table>
+A complete five-day mini-lakehouse project that turns a fixed **synthetic** mobility dataset into reliable Bronze, Silver and Gold/serving products. The pipeline preserves source history, builds one trusted trip definition, handles Delta corrections and recovery, ingests Kafka events with persistent checkpoints, blocks unsafe promotion with Great Expectations, and serves reconciled BI tables plus point-in-time AI feature/label tables.
 
-<table dir="ltr" width="100%"><tr><td width="50%" dir="ltr" lang="en" align="left" valign="top"><h2>Your five-day path</h2><p><strong><a href="day01/README.md">Day 1</a></strong> · Foundations and Bronze</p><p><strong><a href="day02/README.md">Day 2</a></strong> · ELT and Silver</p><p><strong><a href="day03/README.md">Day 3</a></strong> · Delta transactions and maintenance</p><p><strong><a href="day04/README.md">Day 4</a></strong> · Streaming, quality and governance</p><p><strong><a href="day05/README.md">Day 5</a></strong> · Gold, AI/BI and project submission</p></td><td width="50%" dir="rtl" lang="ar" align="right" valign="top"><h2>مسارك في الأيام الخمسة</h2><p><strong><a href="day01/README.md">اليوم 1</a></strong> · الأساسيات وطبقة Bronze</p><p><strong><a href="day02/README.md">اليوم 2</a></strong> · التحويل وبناء Silver</p><p><strong><a href="day03/README.md">اليوم 3</a></strong> · معاملات Delta والصيانة</p><p><strong><a href="day04/README.md">اليوم 4</a></strong> · التدفق والجودة والحوكمة</p><p><strong><a href="day05/README.md">اليوم 5</a></strong> · طبقة Gold ومخرجات AI وBI وتسليم المشروع</p></td></tr></table>
+## Programme
 
-<table dir="ltr" width="100%"><tr><td width="50%" dir="ltr" lang="en" align="left" valign="top"><h2>Before you start</h2><p><a href="docs/SETUP.md">Prepare your environment</a> · <a href="TRAINING_CONTENT.md">Learning outcomes</a> · <a href="data/DICTIONARY.md">Data dictionary</a> · <a href="project/SUBMISSION.md">Submission guide</a>.</p><p>Use the same 72 base trips, 6 drivers and 216 base location events throughout the course, with the supplied late/replay/correction fixtures. Data and code are shared once; each day contains its own learning materials. No paid API or GPU is required.</p></td><td width="50%" dir="rtl" lang="ar" align="right" valign="top"><h2>قبل أن تبدأ</h2><p><a href="docs/SETUP.md">جهّز بيئتك</a> · <a href="TRAINING_CONTENT.md">مخرجات التعلم</a> · <a href="data/DICTIONARY.md">قاموس البيانات</a> · <a href="project/SUBMISSION.md">دليل التسليم</a>.</p><p>استخدم الرحلات الأساسية الـ72 والسائقين الستة وأحداث المواقع الـ216 طوال الدورة، مع ملفات التأخر والإعادة والتصحيح المرفقة. تُحفظ البيانات والأكواد المشتركة مرة واحدة، ويضم كل يوم مواده التعليمية. لا تحتاج إلى API مدفوع أو GPU.</p></td></tr></table>
+This project was developed as part of **Modern Data Engineering for AI Systems (SDA-DSC-214)** at **SDAIA Academy** — https://github.com/SDAIAAcademy.
 
-<table dir="ltr" width="100%"><tr><td width="50%" dir="ltr" lang="en" align="left" valign="top"><p><a href="docs/ADMINISTRATION.md">Participation and support</a> · <a href="docs/GIT_WORKFLOW.md">Git guide</a> · <a href="docs/TROUBLESHOOTING.md">Troubleshooting</a> · <a href="docs/VERIFICATION.md">Execution record</a> · <a href="https://github.com/SDAIAAcademy">SDAIA Academy</a></p><p>At final submission, name the programme and <strong>SDAIA Academy</strong> in your project README, link to <a href="https://github.com/SDAIAAcademy">the Academy</a>, and include <code>#SDAIAAcademy</code> in the README and your submission message. Follow <a href="project/SUBMISSION.md">the submission guide</a>. Optional extensions and repository stars are not passing conditions. Follow the organizer’s announced attendance, deadline and submission rules.</p></td><td width="50%" dir="rtl" lang="ar" align="right" valign="top"><p><a href="docs/ADMINISTRATION.md">المشاركة والدعم</a> · <a href="docs/GIT_WORKFLOW.md">دليل Git</a> · <a href="docs/TROUBLESHOOTING.md">معالجة الأخطاء</a> · <a href="docs/VERIFICATION.md">سجل التنفيذ</a> · <a href="https://github.com/SDAIAAcademy">أكاديمية سدايا</a></p><p>عند التسليم النهائي، اذكر اسم البرنامج و<strong>أكاديمية سدايا</strong> في README مشروعك، وأدرج <a href="https://github.com/SDAIAAcademy">رابط الأكاديمية</a> والوسم <code>#SDAIAAcademy</code> داخل README وفي رسالة التسليم. اتبع <a href="project/SUBMISSION.md">دليل التسليم</a>. الامتدادات الاختيارية ونجوم المستودع ليست شروط نجاح. اتبع ما تعلنه الجهة المنظمة بشأن الحضور والمواعيد وقناة التسليم.</p></td></tr></table>
+#SDAIAAcademy
+
+## What this project demonstrates
+
+The eight cumulative labs are one project:
+
+1. Land and inspect raw feeds in append-only Delta Bronze.
+2. Compare compute/storage assumptions and record local scan evidence.
+3. Build typed, normalized, driver-validated and idempotent Silver.
+4. Exercise Delta schema enforcement, corrections, history and safe recovery.
+5. Stream GPS events through Kafka and Spark with persistent checkpoints.
+6. Gate promotion with Great Expectations and quarantine invalid records.
+7. Integrate the dependency-ordered pipeline with failure-safe releases.
+8. Serve Gold, BI and AI outputs from one trusted lineage.
+
+## Architecture
+
+```text
+Synthetic CSV / NDJSON inputs
+        |
+        v
+Bronze Delta (append-only receipts + source metadata)
+        |
+        +---------------- Kafka / Spark streaming ----------------+
+        |                                                         |
+        v                                                         v
+Staging / Silver trips                                 Unique event snapshot
+(typed, conformed, validated,                                  |
+deduplicated, corrected)                                       |
+        |                                                       |
+        +---------------- Quality gate --------------------------+
+                            |
+                  +---------+---------+
+                  |                   |
+                  v                   v
+              Quarantine        Approved snapshot
+                                      |
+                              Controlled release
+                                      |
+                     +----------------+----------------+
+                     |                                 |
+                     v                                 v
+                Gold / BI                         AI features
+          reporting products                  and aligned labels
+```
+
+### Layer guarantees
+
+- **Bronze:** append-only delivery history with source filename/hash and ingestion metadata; no business normalization.
+- **Silver:** one trusted row per `trip_id`, normalized/typed values, validated driver relationship and deterministic replay handling.
+- **Quality boundary:** invalid candidate rows are quarantined with reasons and failed candidates are not promoted.
+- **Gold / BI:** explicit grains, valid dimension relationships and reconciled trip/fare totals.
+- **AI:** explicit as-of/prediction keys; features exclude information unavailable at the cutoff and unavailable future labels remain null.
+
+## Data
+
+The repository uses the supplied fictional Masar dataset only. Base inputs contain:
+
+- 72 trips
+- 6 drivers
+- 216 GPS events
+
+The intentional Bronze replay produces 144 trip **delivery receipts** while still representing 72 distinct base business trips. The fixed late-trip batch takes trusted Silver to 75 trips. The streaming replay/late scenario finishes with 217 unique events.
+
+No real personal records or real customer GPS traces are part of this project.
+
+## Environment verified
+
+The executed notebook recorded:
+
+- Google Colab / Linux teaching runtime
+- Python 3.11.13
+- OpenJDK 17.0.20
+- PySpark 3.5.8
+- delta-spark 3.3.3
+- Great Expectations 1.7.0
+- Kafka 4.0.2 (local teaching broker)
+- kafka-python 2.2.15
+
+The course requirement files and setup guidance are retained in this repository.
+
+## How to run
+
+Clone this fork and use the `develop` branch:
+
+```bash
+git clone https://github.com/md6610945-ship-it/masar-modern-data-engineering.git
+cd masar-modern-data-engineering
+git switch develop
+```
+
+Follow the daily notebooks in dependency order and do not regenerate an unrelated fresh dataset between days:
+
+```text
+day01/STUDENT.ipynb
+day02/STUDENT.ipynb
+day03/STUDENT.ipynb
+day04/STUDENT.ipynb
+day05/STUDENT.ipynb
+```
+
+Each day consumes the previous day's accumulated lakehouse state. The committed notebooks retain the learner's executed outputs as evidence.
+
+## Results
+
+### Bronze
+
+- Base: 72 trips, 6 drivers, 216 GPS events.
+- Intentional trip replay: 144 Bronze trip receipts, 72 distinct business trips.
+- Source hashes/raw evidence and Delta files preserved.
+
+### Silver
+
+| Phase | Trusted trips | Fare total (SAR) |
+|---|---:|---:|
+| Base | 72 | 1794.60 |
+| Same-input rerun | 72 | 1794.60 |
+| Late batch | 75 | 1875.60 |
+| Late-batch replay | 75 | 1875.60 |
+
+The reruns show idempotent business content while the fixed late delivery adds exactly three trips.
+
+### Delta reliability
+
+- Schema-invalid writes were rejected.
+- Same-revision conflicts were rejected.
+- Mixed valid/invalid writes were rejected atomically.
+- Earlier Delta versions were read successfully.
+- Destructive recovery exercises were isolated from trusted Silver.
+- Recovery-copy delete/restore changed 75 → 74 → 75 while trusted Silver remained unchanged.
+
+### Streaming
+
+| Phase | Transport receipts | Unique event IDs |
+|---|---:|---:|
+| Base | 216 | 216 |
+| Restart | 216 | 216 |
+| Duplicate replay | 218 | 216 |
+| Late event | 219 | 217 |
+
+The same persistent checkpoint was reused for the logical query. Duplicate transport deliveries did not multiply the unique event set; the supplied late event was retained.
+
+### Quality gate
+
+The mixed quality candidate contained 82 rows: 75 valid + 7 fixed invalid cases. Great Expectations rejected the mixed candidate, quarantined all seven bad records with reasons and preserved the 75-row approved snapshot. The failed candidate was not promoted.
+
+### BI reconciliation
+
+| Zone | Trips | Fare (SAR) |
+|---|---:|---:|
+| Dammam | 25 | 670.40 |
+| Jeddah | 25 | 625.20 |
+| Riyadh | 25 | 585.00 |
+| **Total** | **75** | **1880.60** |
+
+Trusted release versus BI output:
+
+- trip difference = **0**
+- fare difference = **0.00 SAR**
+
+The BI fact has one row per trip, valid foreign keys and aggregates events before the join. It does not export raw GPS coordinates.
+
+### AI availability
+
+The feature table uses an explicit as-of cutoff and prediction hour. A saved Dammam example used `2026-06-04T03:05:00Z` as the cutoff, with eight eligible completed trips in the prior 24 hours and no source availability after the cutoff. The corresponding future target was not available and remained null with `label_status = UNOBSERVED` rather than being fabricated.
+
+## Data-product grains
+
+- `gold.zone_hourly_demand`: `zone_key + hour_utc`
+- `gold.driver_daily`: `driver_key + trip_date_local`
+- `bi.dim_zone`: one row per `zone_key`
+- `bi.dim_driver`: one row per `driver_key`
+- `bi.dim_date`: one row per `date_key`
+- `bi.fact_trips`: one row per `trip_id`
+- `ai.zone_hourly_features`: `zone_key + as_of_utc + prediction_hour_utc`
+- `ai.zone_hourly_labels`: aligned prediction key plus label availability/status
+
+## Documentation
+
+- [LAB01_NOTES.md](LAB01_NOTES.md) through [LAB08_NOTES.md](LAB08_NOTES.md): observed evidence for every lab.
+- [BENCHMARKS.md](BENCHMARKS.md): cost assumptions, measurement contract, timings and limits.
+- [GOVERNANCE.md](GOVERNANCE.md): lineage, ownership roles, intended access, quality and retention boundaries.
+- [DECISIONS.md](DECISIONS.md): architecture, performance, reliability and governance decisions with trade-offs.
+- [day02/DATA_CONTRACT.md](day02/DATA_CONTRACT.md): Silver contract and grain.
+- [day05/DATA_PRODUCTS.md](day05/DATA_PRODUCTS.md): Gold/BI/AI product contracts.
+
+## Key decisions
+
+The most important choices are documented in `DECISIONS.md`:
+
+1. Keep Bronze append-only instead of overwriting repeated deliveries.
+2. Use `trip_id` as the Silver business key with deterministic precedence and explicit conflict rejection.
+3. Block unsafe promotion at the quality/release boundaries and preserve the previous approved release after failure.
+4. Keep BI and AI as separate products from one trusted lineage, with point-in-time availability for AI.
+
+## Limitations
+
+- The dataset is deliberately small and synthetic; 72 base trips are not a production-scale benchmark.
+- The timing measurements are local/Colab observations and do not prove general file-format performance or cloud cost.
+- Teaching units in the cost model are not real currency.
+- Kafka is a local teaching broker without production authentication, TLS or multi-broker resilience.
+- The governance document describes a training design and is not a compliance certification.
+- `zone_key` is a city-level proxy, not a real service-zone or neighbourhood boundary.
+- The AI tables demonstrate point-in-time feature/label handling; this project does not train or deploy a production prediction model.
+
+## Credits
+
+Course materials and original Masar learning repository by **Meaad Al-Marri**.
+
+Developed as part of **Modern Data Engineering for AI Systems (SDA-DSC-214)** at **SDAIA Academy** — https://github.com/SDAIAAcademy.
+
+#SDAIAAcademy
