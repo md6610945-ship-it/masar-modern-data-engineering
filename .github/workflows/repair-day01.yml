@@ -22,18 +22,15 @@ jobs:
           from pathlib import Path
           import json
 
-          # Day 1: the exported evidence notebook contained doubled quote escapes
-          # inside captured stdout. Reduce only doubled-backslash+quote to the
-          # correct JSON string escape, then parse and re-serialize cleanly.
           p1 = Path('day01/STUDENT.ipynb')
           text = p1.read_text(encoding='utf-8')
-          fixed = text.replace('\\\\"', '\\"')
+          # A literal backslash before a space is not a valid JSON escape.
+          # Preserve that captured character by escaping the backslash itself.
+          fixed = text.replace('\\ ', '\\\\ ')
           day1 = json.loads(fixed)
           p1.write_text(json.dumps(day1, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
           print('Day 1 notebook JSON repaired and validated.')
 
-          # Day 2: replace one Colab/IPython shell escape with equivalent valid
-          # Python so the repository's source checker can compile every code cell.
           p2 = Path('day02/STUDENT.ipynb')
           day2 = json.loads(p2.read_text(encoding='utf-8'))
           changed = False
@@ -48,10 +45,8 @@ jobs:
                       "subprocess.run([sys.executable, '-m', 'pip', 'install', '-q', 'dbt-core==1.9.8', 'dbt-spark==1.9.1'], check=True)\n",
                   ]
                   changed = True
-          if not changed:
-              print('Day 2 shell-magic cell was already repaired or not present.')
           p2.write_text(json.dumps(day2, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
-          print('Day 2 notebook normalized.')
+          print('Day 2 notebook normalized; shell cell changed:', changed)
           PY
       - name: Commit repaired notebooks
         run: |
