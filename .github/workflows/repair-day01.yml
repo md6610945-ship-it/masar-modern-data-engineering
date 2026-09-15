@@ -24,9 +24,9 @@ jobs:
 
           p1 = Path('day01/STUDENT.ipynb')
           text = p1.read_text(encoding='utf-8')
-          # A literal backslash before a space is not a valid JSON escape.
-          # Preserve that captured character by escaping the backslash itself.
-          fixed = text.replace('\\ ', '\\\\ ')
+          # The exported output accidentally inserted a space between the JSON
+          # escape backslash and its closing quote. Remove only that extra space.
+          fixed = text.replace('\\ ', '\\')
           day1 = json.loads(fixed)
           p1.write_text(json.dumps(day1, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
           print('Day 1 notebook JSON repaired and validated.')
