@@ -1,3 +1,0 @@
-# One native environment. Resolve/test it before teaching; these are direct pins.
--r requirements-day04.txt
--r requirements-dbt.txt
