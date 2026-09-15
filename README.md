@@ -1,4 +1,4 @@
-# Masar Mini-Lakehouse — Mohammed Al-Ahmari
+# Masar Mini-Lakehouse
 
 A complete five-day mini-lakehouse project that turns a fixed **synthetic** mobility dataset into reliable Bronze, Silver and Gold/serving products. The pipeline preserves source history, builds one trusted trip definition, handles Delta corrections and recovery, ingests Kafka events with persistent checkpoints, blocks unsafe promotion with Great Expectations, and serves reconciled BI tables plus point-in-time AI feature/label tables.
 
