@@ -62,9 +62,11 @@ jobs:
               source = cell.get('source', [])
               return ''.join(source) if isinstance(source, list) else source
 
-          # The submitted daily evidence was extracted from a consolidated Colab run.
-          # Restore only the original course dependency cells that were before the
-          # extracted evidence in the source notebook.
+          def insert_code(index, source):
+              nb['cells'].insert(index, {
+                  'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': source,
+              })
+
           setup_source = [
               'from pathlib import Path\n',
               'import sys, json, tempfile\n',
@@ -77,12 +79,16 @@ jobs:
               'RUN = Path(tempfile.mkdtemp(prefix="day01_", dir=ROOT / "outputs"))\n',
               'print("Inspect the source and assumptions before running the next native section.")\n',
           ]
-
           workspace_source = [
               'from masar.workspace import new_workspace, require_fixed_dataset, write_json, workspace_path\n',
               'require_fixed_dataset(SOURCE)\n',
               'WORK = new_workspace(ROOT, "day01_bronze")\n',
               'print("Workspace:", WORK.relative_to(ROOT))\n',
+          ]
+          bronze_import_source = [
+              'from masar.bronze import raw_frame, ingest_feed, verify_bronze\n',
+              '# Functions are imported without starting Spark. The next cell executes the lab.\n',
+              'print("Bronze functions loaded. The next cell writes and reads the Delta tables.")\n',
           ]
 
           first_code = next(cell for cell in nb['cells'] if cell.get('cell_type') == 'code')
@@ -93,15 +99,14 @@ jobs:
 
           source_index = next(i for i, cell in enumerate(nb['cells']) if cell.get('cell_type') == 'code' and 'from masar.sources import' in cell_text(cell))
           if not any('RUN = Path(tempfile.mkdtemp(prefix="day01_"' in cell_text(cell) for cell in nb['cells'][:source_index]):
-              nb['cells'].insert(source_index, {
-                  'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': setup_source,
-              })
+              insert_code(source_index, setup_source)
 
-          bronze_index = next(i for i, cell in enumerate(nb['cells']) if cell.get('cell_type') == 'code' and 'spark = start_spark(WORK)' in cell_text(cell))
-          if not any('WORK = new_workspace(ROOT, "day01_bronze")' in cell_text(cell) for cell in nb['cells'][:bronze_index]):
-              nb['cells'].insert(bronze_index, {
-                  'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': workspace_source,
-              })
+          bronze_exec_index = next(i for i, cell in enumerate(nb['cells']) if cell.get('cell_type') == 'code' and 'spark = start_spark(WORK)' in cell_text(cell))
+          if not any('WORK = new_workspace(ROOT, "day01_bronze")' in cell_text(cell) for cell in nb['cells'][:bronze_exec_index]):
+              insert_code(bronze_exec_index, workspace_source)
+              bronze_exec_index += 1
+          if not any('from masar.bronze import raw_frame, ingest_feed, verify_bronze' in cell_text(cell) for cell in nb['cells'][:bronze_exec_index]):
+              insert_code(bronze_exec_index, bronze_import_source)
 
           path.write_text(json.dumps(nb, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
           PY
@@ -161,7 +166,6 @@ jobs:
           evidence = root / 'evidence/student-course/notebooks/run_1/outputs'
           out = Path('/tmp/final-reports')
           out.mkdir(parents=True, exist_ok=True)
-
           mapping = {
               'day02_staging_latest.json': 'day02_staging_latest.json',
               'day02_silver.json': 'day02_silver.json',
@@ -172,7 +176,6 @@ jobs:
               'day05_recovery.json': 'serving/day05_recovery.json',
               'day05_serving_latest.json': 'serving/day05_serving_latest.json',
           }
-
           source_sha = subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip()
           manifest = {
               'scope': 'CLEAN_GITHUB_ACTIONS_FULL_PIPELINE_EVIDENCE',
@@ -182,7 +185,6 @@ jobs:
               'independent_course_runs': 2,
               'machine_generated_reports': [],
           }
-
           for name, destination in mapping.items():
               matches = list(evidence.rglob(name))
               if len(matches) != 1:
@@ -198,10 +200,7 @@ jobs:
                   'bytes': len(raw),
                   'sha256': hashlib.sha256(raw).hexdigest(),
               })
-
-          (out / 'clean_run_manifest.json').write_text(
-              json.dumps(manifest, indent=2) + '\n', encoding='utf-8'
-          )
+          (out / 'clean_run_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
           PY
 
       - name: Restore clean checkout and retain only submission evidence
@@ -226,14 +225,10 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add reports/day02_staging_latest.json \
-                  reports/day02_silver.json \
-                  reports/day03_transactions.json \
-                  reports/day03_maintenance_latest.json \
-                  reports/quality/day04_stream_latest.json \
-                  reports/quality/day04_quality_latest.json \
-                  reports/serving/day05_recovery.json \
-                  reports/serving/day05_serving_latest.json \
+          git add reports/day02_staging_latest.json reports/day02_silver.json \
+                  reports/day03_transactions.json reports/day03_maintenance_latest.json \
+                  reports/quality/day04_stream_latest.json reports/quality/day04_quality_latest.json \
+                  reports/serving/day05_recovery.json reports/serving/day05_serving_latest.json \
                   reports/clean_run_manifest.json
           git add -u reports/clean_run_failure.json || true
           git commit -m 'evidence: retain clean full-pipeline machine reports'
@@ -243,8 +238,7 @@ jobs:
         if: steps.execute.outcome == 'success'
         run: |
           add_tag () {
-            tag="$1"
-            sha="$2"
+            tag="$1"; sha="$2"
             if git show-ref --tags --verify --quiet "refs/tags/$tag"; then
               echo "$tag already exists"
             else
