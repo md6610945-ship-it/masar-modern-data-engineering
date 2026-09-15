@@ -1,14 +1,29 @@
 # Reports and retained evidence
 
-The original lab runs created machine-generated JSON reports inside the Colab workspace/handoff archives (for example `reports/bronze.json`, benchmark plans, Day 4 quality reports and Day 5 serving reports). The uploaded learner artifact available for this repository cleanup was the **executed consolidated notebook**, not the original `outputs/dayNN_handoff.zip` workspace.
+This directory separates **original engine-generated evidence** from notebook-derived summary evidence.
 
-To avoid fabricating machine-generated artifacts, this repository does **not** pretend that reconstructed JSON files are the original engine reports. The five committed `day01/`–`day05/STUDENT.ipynb` notebooks retain the observed execution outputs, and `notebook_evidence_summary.json` provides a machine-readable index transcribed from those retained outputs.
+## Original runtime-generated evidence restored
 
-If the original Day 5 handoff ZIP is available, its real generated `reports/` content should be restored as the final evidence source. Generated Delta tables, checkpoints and bulky `outputs/` archives remain excluded from normal Git commits by `.gitignore`.
+The learner's real `day01_handoff.zip` was recovered and inspected. The following files were restored directly from that archive without reconstruction:
+
+- `bronze.json` — original Day 1 Bronze engine report.
+- `benchmark.json` — original Day 1 Spark benchmark report.
+- `plans/csv.txt` — original CSV physical plan.
+- `plans/delta_v0.txt` — original Delta physical plan.
+
+The original benchmark run and the later retained notebook rerun have different elapsed-time samples, as expected for repeated local micro-benchmarks. `BENCHMARKS.md` reports both transparently and makes no general performance claim.
+
+## Later-day evidence boundary
+
+The available project artifacts include the executed Day 2–Day 5 notebooks with retained outputs, but the original `day04_handoff.zip` / `day05_handoff.zip` archives were not available when this repository was finalized. Therefore this repository does **not** fabricate `reports/quality/` or `reports/serving/` as if they were original engine-generated files.
+
+The five committed `day01/`–`day05/STUDENT.ipynb` notebooks retain the observed execution outputs, and `notebook_evidence_summary.json` provides a machine-readable index transcribed from those retained outputs.
+
+Generated Delta tables, checkpoints and bulky `outputs/` archives remain excluded from ordinary Git commits by `.gitignore`, consistent with the course submission rules.
 
 ## Evidence currently available
 
-- `day01/STUDENT.ipynb`: source inspection, Bronze and benchmark outputs.
+- `day01/STUDENT.ipynb`: source inspection, Bronze and later benchmark outputs.
 - `day02/STUDENT.ipynb`: staging, Silver, late/replay and dbt outputs.
 - `day03/STUDENT.ipynb`: transaction, negative-write and recovery-copy outputs.
 - `day04/STUDENT.ipynb`: Kafka streaming and Great Expectations quality outputs.
@@ -16,4 +31,4 @@ If the original Day 5 handoff ZIP is available, its real generated `reports/` co
 - `LAB01_NOTES.md`–`LAB08_NOTES.md`: human-readable observations and decisions.
 - `BENCHMARKS.md`, `GOVERNANCE.md`, `DECISIONS.md`: project-level technical documentation.
 
-The distinction between original generated evidence and transcribed notebook evidence is intentional and prevents overclaiming.
+This distinction between original generated evidence and retained notebook evidence is intentional and prevents overclaiming.
