@@ -72,9 +72,7 @@ The intentional Bronze replay produces 144 trip **delivery receipts** while stil
 
 No real personal records or real customer GPS traces are part of this project.
 
-## Environment verified
-
-The executed notebook recorded:
+## Environment verified in the retained execution
 
 - Google Colab / Linux teaching runtime
 - Python 3.11.13
@@ -85,19 +83,56 @@ The executed notebook recorded:
 - Kafka 4.0.2 (local teaching broker)
 - kafka-python 2.2.15
 
-The course requirement files and setup guidance are retained in this repository.
+The repository also retains the course requirements and setup documentation used by the project.
 
-## How to run
+## How to reproduce from a clean clone
 
-Clone this fork and use the `develop` branch:
+### 1. Clone this fork and select the submitted branch
 
 ```bash
 git clone https://github.com/md6610945-ship-it/masar-modern-data-engineering.git
 cd masar-modern-data-engineering
 git switch develop
+git remote -v
 ```
 
-Follow the daily notebooks in dependency order and do not regenerate an unrelated fresh dataset between days:
+The repository root is the directory containing `course.json`.
+
+### 2. Prepare Python 3.11 and Java 17
+
+Linux/macOS:
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+java -version
+python --version
+```
+
+Windows Command Prompt:
+
+```bat
+py -3.11 -m venv .venv
+.venv\Scripts\activate
+java -version
+python --version
+```
+
+`JAVA_HOME` must point to the Java 17 installation before Spark/Jupyter starts.
+
+### 3. Install the pinned course dependencies and open Jupyter
+
+```bash
+python -m pip install -r requirements-course.txt -r requirements-day01.txt
+python -m pip check
+python -m jupyterlab
+```
+
+Initial setup requires internet access for Python packages and Delta/Spark dependencies. No paid API or GPU is required.
+
+### 4. Run the notebooks in dependency order
+
+Use the Python kernel from the environment above. Run every cell in order and save the notebook with outputs retained:
 
 ```text
 day01/STUDENT.ipynb
@@ -107,7 +142,35 @@ day04/STUDENT.ipynb
 day05/STUDENT.ipynb
 ```
 
-Each day consumes the previous day's accumulated lakehouse state. The committed notebooks retain the learner's executed outputs as evidence.
+Each day consumes the accumulated project state from the previous day. Do not replace it with an unrelated regenerated dataset.
+
+### 5. Before Day 4, start the supplied local Kafka broker
+
+With Docker Engine + Compose available on the same host as Jupyter:
+
+```bash
+python -m pip install -r requirements-day04.txt
+python -m pip check
+docker compose -f infrastructure/kafka/compose.yaml up -d --wait --wait-timeout 120
+docker compose -f infrastructure/kafka/compose.yaml ps
+python scripts/run_day04.py --preflight
+```
+
+A healthy preflight checks dependencies/connectivity; the actual Kafka/Spark/GX evidence is produced by `day04/STUDENT.ipynb`.
+
+After the Day 4 notebook finishes, the broker can be stopped without deleting its volume:
+
+```bash
+docker compose -f infrastructure/kafka/compose.yaml stop
+```
+
+Do not delete checkpoints or reset offsets to hide a failed attempt.
+
+### 6. Preserve evidence between sessions
+
+Each day's final notebook cell creates an `outputs/dayNN_handoff.zip`. If moving to a new session/machine, restore your own handoff at the repository root so relative paths remain intact. Keep executed notebook outputs and lab notes; generated heavy workspaces remain excluded from ordinary Git commits.
+
+Full environment details are also documented in [`docs/SETUP.md`](docs/SETUP.md), with Day 4 broker instructions in [`day04/SETUP.md`](day04/SETUP.md).
 
 ## Results
 
@@ -183,7 +246,7 @@ The feature table uses an explicit as-of cutoff and prediction hour. A saved Dam
 - `ai.zone_hourly_features`: `zone_key + as_of_utc + prediction_hour_utc`
 - `ai.zone_hourly_labels`: aligned prediction key plus label availability/status
 
-## Documentation
+## Evidence and documentation
 
 - [LAB01_NOTES.md](LAB01_NOTES.md) through [LAB08_NOTES.md](LAB08_NOTES.md): observed evidence for every lab.
 - [BENCHMARKS.md](BENCHMARKS.md): cost assumptions, measurement contract, timings and limits.
@@ -191,6 +254,9 @@ The feature table uses an explicit as-of cutoff and prediction hour. A saved Dam
 - [DECISIONS.md](DECISIONS.md): architecture, performance, reliability and governance decisions with trade-offs.
 - [day02/DATA_CONTRACT.md](day02/DATA_CONTRACT.md): Silver contract and grain.
 - [day05/DATA_PRODUCTS.md](day05/DATA_PRODUCTS.md): Gold/BI/AI product contracts.
+- [reports/README.md](reports/README.md): explains exactly which runtime-generated reports are retained and which original handoff artifacts were unavailable when the repository was finalized.
+
+The five committed daily notebooks retain executed outputs and are the primary evidence of the observed run.
 
 ## Key decisions
 
