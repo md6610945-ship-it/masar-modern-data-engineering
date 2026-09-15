@@ -1,0 +1,44 @@
+{
+  "archive_name": "day01_handoff.zip",
+  "archive_sha256": "64dfa448e77ba10e3365b434af9ca5ea296463c4a99b059c6699eecc1a3bc882",
+  "archive_committed_to_git": false,
+  "reason_archive_not_committed": "Course rules exclude handoff ZIP/output archives from ordinary Git commits; only small evidence files are retained.",
+  "recovered_files": [
+    {
+      "archive_path": "outputs/day01_bronze_l7p_8erz/reports/bronze.json",
+      "repository_path": "reports/bronze.json",
+      "bytes": 3048,
+      "sha256": "35127cb3fde7dfb313e6eca09f83da02e7af87cbf1808906d75720bed6a7a810"
+    },
+    {
+      "archive_path": "outputs/day01_bronze_l7p_8erz/reports/benchmark.json",
+      "repository_path": "reports/benchmark.json",
+      "bytes": 2052,
+      "sha256": "16487fb790bd85a060a051c680f7cae7662debf6f00986511adf11f8a30185cb"
+    },
+    {
+      "archive_path": "outputs/day01_bronze_l7p_8erz/reports/plans/csv.txt",
+      "repository_path": "reports/plans/csv.txt",
+      "bytes": 1367,
+      "sha256": "0b1d323cb35cc442efcd128426691ad98753244284c83a413d4f6ad8a616ee5c"
+    },
+    {
+      "archive_path": "outputs/day01_bronze_l7p_8erz/reports/plans/delta_v0.txt",
+      "repository_path": "reports/plans/delta_v0.txt",
+      "bytes": 1407,
+      "sha256": "9d40cb0fcee1aa6611cb37b4c86659a610e405589a83a0496965e00df53dbd8c"
+    },
+    {
+      "archive_path": "outputs/day01_n8wzi6ig/source_inspection.json",
+      "repository_path": "reports/source_inspection.json",
+      "bytes": 1752,
+      "sha256": "0ffd6326270d10ea56f1eebb71f9335308ea02238fc965da2a6564aab48d6556"
+    },
+    {
+      "archive_path": "outputs/day01_zw633puc/cost_model_result.json",
+      "repository_path": "reports/cost_model_result.json",
+      "bytes": 2718,
+      "sha256": "48283d804552f50d8f1cf8a72433def4efc97a1ccbe1115b42f04a8267947d74"
+    }
+  ]
+}
