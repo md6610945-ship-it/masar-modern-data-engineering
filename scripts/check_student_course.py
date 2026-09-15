@@ -31,8 +31,12 @@ def inspect(root=ROOT):
         if path.suffix not in ('.md', '.ipynb'):
             continue
         if path.suffix == '.ipynb':
-            nb = nbformat.read(path, as_version=4)
-            nbformat.validate(nb)
+            try:
+                nb = nbformat.read(path, as_version=4)
+                nbformat.validate(nb)
+            except Exception as exc:
+                errors.append(f'{path.relative_to(root)}: invalid notebook JSON: {exc}')
+                continue
             texts = [c.source for c in nb.cells if c.cell_type == 'markdown']
             for c in nb.cells:
                 if c.cell_type == 'code':
