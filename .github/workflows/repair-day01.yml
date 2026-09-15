@@ -1,0 +1,41 @@
+name: Repair Day 1 notebook JSON
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - '.github/workflows/repair-day01.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop
+      - name: Normalize invalid JSON escape in Day 1 notebook
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          p = Path('day01/STUDENT.ipynb')
+          text = p.read_text(encoding='utf-8')
+          fixed = text.replace('\\ ', ' ')
+          data = json.loads(fixed)
+          p.write_text(json.dumps(data, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
+          print('Day 1 notebook JSON normalized and validated.')
+          PY
+      - name: Commit repaired notebook
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add day01/STUDENT.ipynb
+          if git diff --cached --quiet; then
+            echo 'No repair needed.'
+          else
+            git commit -m 'fix: normalize Day 1 notebook JSON'
+            git push origin HEAD:develop
+          fi
