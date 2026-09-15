@@ -49,7 +49,7 @@ jobs:
           docker compose -f infrastructure/kafka/compose.yaml up -d --wait --wait-timeout 120
           docker compose -f infrastructure/kafka/compose.yaml ps
 
-      - name: Restore original Day 1 setup dependency cell
+      - name: Restore original Day 1 dependency cells
         run: |
           python - <<'PY'
           import json
@@ -58,6 +58,13 @@ jobs:
           path = Path('day01/STUDENT.ipynb')
           nb = json.loads(path.read_text(encoding='utf-8'))
 
+          def cell_text(cell):
+              source = cell.get('source', [])
+              return ''.join(source) if isinstance(source, list) else source
+
+          # The submitted daily evidence was extracted from a consolidated Colab run.
+          # Restore only the original course dependency cells that were before the
+          # extracted evidence in the source notebook.
           setup_source = [
               'from pathlib import Path\n',
               'import sys, json, tempfile\n',
@@ -71,9 +78,12 @@ jobs:
               'print("Inspect the source and assumptions before running the next native section.")\n',
           ]
 
-          def cell_text(cell):
-              source = cell.get('source', [])
-              return ''.join(source) if isinstance(source, list) else source
+          workspace_source = [
+              'from masar.workspace import new_workspace, require_fixed_dataset, write_json, workspace_path\n',
+              'require_fixed_dataset(SOURCE)\n',
+              'WORK = new_workspace(ROOT, "day01_bronze")\n',
+              'print("Workspace:", WORK.relative_to(ROOT))\n',
+          ]
 
           first_code = next(cell for cell in nb['cells'] if cell.get('cell_type') == 'code')
           first_text = cell_text(first_code)
@@ -82,14 +92,15 @@ jobs:
               first_code['source'] = ['import json\n', *source] if isinstance(source, list) else 'import json\n' + source
 
           source_index = next(i for i, cell in enumerate(nb['cells']) if cell.get('cell_type') == 'code' and 'from masar.sources import' in cell_text(cell))
-          has_original_setup = any('RUN = Path(tempfile.mkdtemp(prefix="day01_"' in cell_text(cell) for cell in nb['cells'][:source_index])
-          if not has_original_setup:
+          if not any('RUN = Path(tempfile.mkdtemp(prefix="day01_"' in cell_text(cell) for cell in nb['cells'][:source_index]):
               nb['cells'].insert(source_index, {
-                  'cell_type': 'code',
-                  'execution_count': None,
-                  'metadata': {},
-                  'outputs': [],
-                  'source': setup_source,
+                  'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': setup_source,
+              })
+
+          bronze_index = next(i for i, cell in enumerate(nb['cells']) if cell.get('cell_type') == 'code' and 'spark = start_spark(WORK)' in cell_text(cell))
+          if not any('WORK = new_workspace(ROOT, "day01_bronze")' in cell_text(cell) for cell in nb['cells'][:bronze_index]):
+              nb['cells'].insert(bronze_index, {
+                  'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': workspace_source,
               })
 
           path.write_text(json.dumps(nb, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
@@ -98,7 +109,7 @@ jobs:
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git add day01/STUDENT.ipynb
-            git commit -m 'fix: restore original Day 1 setup dependency cell'
+            git commit -m 'fix: restore original Day 1 dependency cells'
             git push origin HEAD:develop
           fi
 
