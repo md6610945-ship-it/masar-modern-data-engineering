@@ -1,5 +1,7 @@
 """Hypothetical cost arithmetic, not prices or measured Spark performance."""
+import json
 from decimal import Decimal, InvalidOperation, localcontext
+from pathlib import Path
 
 DEFAULTS = {
     "days": "30", "hours_per_day": "24", "cores": "4",
@@ -55,6 +57,11 @@ def serializable(result: dict) -> dict:
 
 WORKLOADS = ["0", "1", "2", "4", "8", "12", "18", "23", "23.25", "23.75"]
 
+def _repository_root() -> Path | None:
+    """Locate the course repository from the notebook execution directory."""
+    current = Path.cwd().resolve()
+    return next((p for p in (current, *current.parents) if (p / "course.json").is_file()), None)
+
 def cost_report() -> dict:
     base = evaluate_cost(DEFAULTS)
     sensitivity = []
@@ -62,6 +69,16 @@ def cost_report() -> dict:
         result = evaluate_cost({**DEFAULTS, "work_hours_per_day": hours})
         sensitivity.append({"work_hours_per_day": hours,
             **{key: str(result[key]) for key in ("always_on_total", "scheduled_total", "difference")}})
-    return {"scope": "ILLUSTRATIVE_COST_ARITHMETIC_ONLY", "spark_benchmark_executed": False,
+    report = {"scope": "ILLUSTRATIVE_COST_ARITHMETIC_ONLY", "spark_benchmark_executed": False,
         "assumptions": DEFAULTS, "base": serializable(base), "sensitivity": sensitivity,
         "exclusions": ["provider prices", "tax", "egress", "request fees", "latency SLA", "real Spark benchmark", "production sizing"]}
+
+    # Day 1 handoff explicitly retains this small report. Persist the actual
+    # computed result rather than synthesizing evidence later in the workflow.
+    root = _repository_root()
+    if root is not None:
+        output = root / "outputs" / "cost_model_result.json"
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+
+    return report
