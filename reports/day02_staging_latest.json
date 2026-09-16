@@ -1,0 +1,68 @@
+{
+  "artifacts": {
+    "stg_drivers": {
+      "commits": [
+        {
+          "path": "mini_lakehouse/staging/day02_c813883a704e40b7ae87ee65d003a96f/stg_drivers/_delta_log/00000000000000000000.json",
+          "sha256": "ab24bd4d78dec1fcb7323205d0f7171cbcf91af9b83fb0f5805b763b4266a2ae"
+        }
+      ],
+      "data_files": [
+        {
+          "path": "mini_lakehouse/staging/day02_c813883a704e40b7ae87ee65d003a96f/stg_drivers/part-00000-ea4cf3ab-230a-48ca-96c8-50bf4bbd6f0f-c000.snappy.parquet",
+          "sha256": "aaec92a9e614597f1ef3768469801610a0d2d51d2a2ad9953cf38f43188fb06a"
+        }
+      ]
+    },
+    "stg_gps": {
+      "commits": [
+        {
+          "path": "mini_lakehouse/staging/day02_c813883a704e40b7ae87ee65d003a96f/stg_gps/_delta_log/00000000000000000000.json",
+          "sha256": "04542a29ac9d2e64e2fe9e7afd1d2aa13195ecbfb25811682950ccd6161538c6"
+        }
+      ],
+      "data_files": [
+        {
+          "path": "mini_lakehouse/staging/day02_c813883a704e40b7ae87ee65d003a96f/stg_gps/part-00000-9a2703be-5f64-426a-8345-7c1b019ff370-c000.snappy.parquet",
+          "sha256": "673d8386164e6f48a79643350c6343d898412cb8331b5c8b3c47afd174b6daf0"
+        }
+      ]
+    },
+    "stg_trips": {
+      "commits": [
+        {
+          "path": "mini_lakehouse/staging/day02_c813883a704e40b7ae87ee65d003a96f/stg_trips/_delta_log/00000000000000000000.json",
+          "sha256": "f6666e113b21e4b95f6e0282c407bb9252daf07ba8c0f11fe5007ca9f0c574aa"
+        }
+      ],
+      "data_files": [
+        {
+          "path": "mini_lakehouse/staging/day02_c813883a704e40b7ae87ee65d003a96f/stg_trips/part-00000-8f2eee83-802c-4998-8b71-16911cc05729-c000.snappy.parquet",
+          "sha256": "d0c6f432e043c1681c4e36dae613451649d53c461ebddaa8ab492bd9f8d4f973"
+        },
+        {
+          "path": "mini_lakehouse/staging/day02_c813883a704e40b7ae87ee65d003a96f/stg_trips/part-00001-023ec37f-978b-4648-8e39-62f0603dd430-c000.snappy.parquet",
+          "sha256": "e24f63a2015abf99ac593af65c9a40c6ca6bf5256accb210c4145e5ed07f3129"
+        }
+      ]
+    }
+  },
+  "checks": {
+    "counts_verified": true,
+    "delta_readback": true,
+    "drivers_unique_and_join_safe": true,
+    "gps_valid": true,
+    "typed_values_match_source_oracle": true
+  },
+  "counts": {
+    "stg_drivers": 6,
+    "stg_gps": 216,
+    "stg_trips": 144
+  },
+  "dataset_manifest_sha256": "20a7e45bed2980b9394c10e8532da3b9f40f614366bb2df26a88610253e768e3",
+  "engine_executed": true,
+  "run_id": "c813883a704e40b7ae87ee65d003a96f",
+  "scope": "DAY02_STAGING_ENGINE",
+  "spark_version": "3.5.8",
+  "unique_base_trips": 72
+}

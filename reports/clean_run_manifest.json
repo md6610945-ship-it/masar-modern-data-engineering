@@ -1,0 +1,57 @@
+{
+  "scope": "CLEAN_GITHUB_ACTIONS_FULL_PIPELINE_EVIDENCE",
+  "source_branch": "develop",
+  "source_commit": "133c6c56ae54786a31c068e57177f47f3fba7ba5",
+  "workflow_run_url": "https://github.com/md6610945-ship-it/masar-modern-data-engineering/actions/runs/35009987084",
+  "independent_course_runs": 2,
+  "machine_generated_reports": [
+    {
+      "path": "reports/day02_staging_latest.json",
+      "source_evidence_path": "evidence/student-course/notebooks/run_1/outputs/day01_bronze_9u7i3skg/reports/day02_staging_latest.json",
+      "bytes": 2590,
+      "sha256": "9647460e5c09e52f4e26f849b9614ab60d5611e06890e104cb578ecd98026609"
+    },
+    {
+      "path": "reports/day02_silver.json",
+      "source_evidence_path": "evidence/student-course/notebooks/run_1/outputs/day01_bronze_9u7i3skg/reports/day02_silver.json",
+      "bytes": 3122,
+      "sha256": "e650ed4b3b31252b077ea17c4cd5c4db5d5aa4876c35ec43fd724b88bef10d9c"
+    },
+    {
+      "path": "reports/day03_transactions.json",
+      "source_evidence_path": "evidence/student-course/notebooks/run_1/outputs/day01_bronze_9u7i3skg/reports/day03_transactions.json",
+      "bytes": 19558,
+      "sha256": "6599da16c29534a2da3bad54ab5e02d5d5467a38e6d61366819514b765fe31ff"
+    },
+    {
+      "path": "reports/day03_maintenance_latest.json",
+      "source_evidence_path": "evidence/student-course/notebooks/run_1/outputs/day01_bronze_9u7i3skg/reports/day03_maintenance_latest.json",
+      "bytes": 16928,
+      "sha256": "716acf73637777555360db1c512ad8ca867cf0e25408c019b20074abe890353c"
+    },
+    {
+      "path": "reports/quality/day04_stream_latest.json",
+      "source_evidence_path": "evidence/student-course/notebooks/run_1/outputs/day01_bronze_9u7i3skg/reports/day04_stream_latest.json",
+      "bytes": 18824,
+      "sha256": "bd558a43639ae2d0ee9b297050e44f1439085da1fc15a6b94d81a8f989d4ca0c"
+    },
+    {
+      "path": "reports/quality/day04_quality_latest.json",
+      "source_evidence_path": "evidence/student-course/notebooks/run_1/outputs/day01_bronze_9u7i3skg/reports/day04_quality_latest.json",
+      "bytes": 5556,
+      "sha256": "0ad53b05040486ccc3619cd3ecf71ac4bcd15314fb6ed5c4a237cc755d03c933"
+    },
+    {
+      "path": "reports/serving/day05_recovery.json",
+      "source_evidence_path": "evidence/student-course/notebooks/run_1/outputs/day01_bronze_9u7i3skg/reports/day05_recovery.json",
+      "bytes": 523,
+      "sha256": "83cd6b870e0cf81dcf4d56699081953978e38f7fd0e2254564445b54e8d1f37b"
+    },
+    {
+      "path": "reports/serving/day05_serving_latest.json",
+      "source_evidence_path": "evidence/student-course/notebooks/run_1/outputs/day01_bronze_9u7i3skg/reports/day05_serving_latest.json",
+      "bytes": 3418,
+      "sha256": "d068f51b58cb175ce722c9ea16118da0661d16408603663055590cafe78841b4"
+    }
+  ]
+}
