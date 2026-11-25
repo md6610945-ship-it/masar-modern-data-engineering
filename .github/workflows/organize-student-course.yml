@@ -80,13 +80,13 @@ jobs:
               en_labs=[]; ar_labs=[]
               for lab in labs:
                   for filename, en_label, ar_label in [('README.md',f'Lab {lab:02d}: instructions',f'اللاب {lab:02d}: التعليمات'),('WALKTHROUGH.md',f'Lab {lab:02d}: explanation',f'اللاب {lab:02d}: الشرح التطبيقي')]:
-                      target=root/f'labs/lab{lab:02d}'/filename
+                      target=folder/f'labs/lab{lab:02d}'/filename
                       if not target.is_file():
                           raise SystemExit(f'Missing prepared lab resource: {target.relative_to(root)}')
                       en_labs.append('<p>'+link(rel(target,folder),en_label)+'</p>')
                       ar_labs.append('<p>'+link(rel(target,folder),ar_label)+'</p>')
-              paths=sorted((root/f'notebooks/day{number:02d}').glob('*.ipynb'))
-              combined=root/f'DAY{number:02d}_STUDENT.ipynb'
+              paths=sorted(p for p in folder.glob('*.ipynb') if p.name != 'STUDENT.ipynb')
+              combined=folder/'STUDENT.ipynb'
               en_nb=[]; ar_nb=[]
               if combined.is_file():
                   en_nb.append('<p><strong>'+link(rel(combined,folder),'Combined daily notebook')+'</strong></p>')
@@ -129,8 +129,8 @@ jobs:
                        '<h2>طبّق ووثّق</h2><p>اتبع ترتيب التنفيذ اليومي. احتفظ بالكود والمصادر والتقارير في مواقعها الموجودة؛ تربطها فهارس الأيام دون نسخ مكررة. احفظ المخرجات الفعلية وفسّر ما لاحظته.</p><p>'+link('project/SUBMISSION.md','تعليمات التسليم')+' · '+link('docs/GIT_WORKFLOW.md','دليل Git')+' · '+link('STATUS.md','أدلة التنفيذ')+'</p>')
           cover+=panel('<h2>Programme credit</h2><p>In your project README, credit the course, Meaad Al-Marri and '+link('https://github.com/SDAIAAcademy','SDAIA Academy')+'. Identify reused sources and state that the data is synthetic. Distinction extensions and repository stars are optional. Follow the organizer\'s announced attendance and submission rules.</p>',
                        '<h2>نسب البرنامج والمصادر</h2><p>اذكر في README مشروعك اسم الدورة وميعاد المري ورابط '+link('https://github.com/SDAIAAcademy','أكاديمية سدايا')+'. حدد المصادر المعاد استخدامها ووضّح أن البيانات اصطناعية. امتدادات التميز ونجوم المستودع اختيارية. التزم بتعليمات الحضور والتسليم المعلنة من الجهة المنظمة.</p>')
-          (root/'README.md').write_text(cover,encoding='utf-8')
-          changed=['README.md']+[f'day{n:02d}/INDEX.md' for n in days]
+          (root/'COURSE_INDEX.md').write_text(cover,encoding='utf-8')
+          changed=['COURSE_INDEX.md']+[f'day{n:02d}/INDEX.md' for n in days]
           for name in changed:
               path=root/name
               for target in re.findall(r'href="([^"]+)"',path.read_text(encoding='utf-8')):
@@ -145,7 +145,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add README.md day01/INDEX.md day02/INDEX.md day03/INDEX.md day04/INDEX.md day05/INDEX.md
+          git add COURSE_INDEX.md day01/INDEX.md day02/INDEX.md day03/INDEX.md day04/INDEX.md day05/INDEX.md
           if ! git diff --cached --quiet; then
             git commit -m 'docs: publish student course cover and five daily resource hubs'
             git push origin HEAD:main
