@@ -1,3 +1,15 @@
+# MASAR — Modern Data Engineering for AI Systems
+
+**Mohammed Ayed Al-Ahmari | SDAIA Academy | Practical training project**
+
+I completed the MASAR mini-lakehouse training project with a reported assessment score of **98/100 (Excellent)**. The training covers data ingestion, ELT, Bronze → Silver → Gold architecture, Delta Lake, streaming, data quality and analytics.
+
+[My project achievement and scope](portfolio/MASAR-achievement.md) · [Execution records](docs/VERIFICATION.md) · [Original course repository](https://github.com/almiyead-rgb/masar-modern-data-engineering)
+
+The course materials below are credited to their original author, Meaad Al-Marri. The recorded execution results concern the course notebooks, not independent verification of my assessment score.
+
+---
+
 <table dir="ltr" width="100%"><tr><td width="50%" dir="ltr" lang="en" align="left" valign="top"><p>SDAIA Academy · Learner materials</p><h1>Modern Data Engineering<br>for AI Systems</h1><h2>MASAR · Mini-Lakehouse</h2><p><strong>Meaad Al-Marri</strong><br>SDA-DSC-214 · Five days · Eight cumulative labs</p></td><td width="50%" dir="rtl" lang="ar" align="right" valign="top"><p>أكاديمية سدايا · مواد المتدرب</p><h1>هندسة البيانات الحديثة<br>لأنظمة الذكاء الاصطناعي</h1><h2>مسار · بيئة بيانات مصغرة</h2><p><strong>ميعاد المري</strong><br>SDA-DSC-214 · خمسة أيام · ثمانية لابات تراكمية</p></td></tr></table>
 
 <table dir="ltr" width="100%"><tr><td width="50%" dir="ltr" lang="en" align="left" valign="top"><h2>What you will build</h2><p>Turn small synthetic trip, driver and location feeds into a reliable data pipeline: preserve the source, build Silver, manage changes, receive events, check quality and deliver reporting and AI-ready tables.</p><p><strong>The labs are your final project.</strong> Complete them in sequence; no separate final assignment is added.</p></td><td width="50%" dir="rtl" lang="ar" align="right" valign="top"><h2>ماذا ستبني؟</h2><p>حوّل ملفات اصطناعية صغيرة للرحلات والسائقين والمواقع إلى خط بيانات موثوق: احفظ المصدر، وابنِ Silver، وأدر التغييرات، واستقبل الأحداث، وافحص الجودة، ثم جهّز جداول التقارير والذكاء الاصطناعي.</p><p><strong>اللابات هي مشروعك النهائي.</strong> أكملها بالتتابع دون تكليف نهائي منفصل.</p></td></tr></table>
